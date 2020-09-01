@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd"
+        profile="prod">
+
+    <bean class="org.renevangool.springcore.controller.StringController">
+        <constructor-arg ref="stringService" />
+    </bean>
+    <bean id="stringService" class="org.renevangool.springcore.service.impl.StringReverseService">
+        <constructor-arg ref="stringRepository" />
+    </bean>
+    <bean id="stringRepository" class="org.renevangool.springcore.repository.StringRepository">
+    </bean>
+</beans>

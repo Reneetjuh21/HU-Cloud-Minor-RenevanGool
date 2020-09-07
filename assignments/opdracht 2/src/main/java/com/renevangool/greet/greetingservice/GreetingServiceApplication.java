@@ -20,9 +20,6 @@ public class GreetingServiceApplication implements GreetingController {
 
     private final IGreetingService greetingService;
 
-    @Value("${user.role}")
-    private String role;
-
     @Autowired
     public GreetingServiceApplication(
             IGreetingService greetingService
@@ -36,7 +33,6 @@ public class GreetingServiceApplication implements GreetingController {
 
     @GetMapping
     public String getGreeting() {
-//        return this.greetingService.getGreeting();
-        return role;
+        return this.greetingService.getGreeting();
     }
 }

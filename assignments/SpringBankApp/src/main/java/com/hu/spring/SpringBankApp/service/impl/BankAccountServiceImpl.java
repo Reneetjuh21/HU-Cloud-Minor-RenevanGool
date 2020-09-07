@@ -4,8 +4,9 @@ import com.hu.spring.SpringBankApp.domain.accountholder.AccountHolder;
 import com.hu.spring.SpringBankApp.domain.bankaccount.BankAccount;
 import com.hu.spring.SpringBankApp.domain.bankaccount.BankAccountDto;
 import com.hu.spring.SpringBankApp.domain.bankaccount.BankAccountRequestBody;
-import com.hu.spring.SpringBankApp.repository.IAccountHolderRepository;
-import com.hu.spring.SpringBankApp.repository.IBankAccountRepository;
+import com.hu.spring.SpringBankApp.domain.bankaccount.BankAccountStatus;
+import com.hu.spring.SpringBankApp.repository.AccountHolderRepository;
+import com.hu.spring.SpringBankApp.repository.BankAccountRepository;
 import com.hu.spring.SpringBankApp.service.IBankAccountService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,26 +23,21 @@ import java.util.Map;
 public class BankAccountServiceImpl implements IBankAccountService {
     private ModelMapper modelMapper;
 
-    private IBankAccountRepository bankAccountRepository;
-
-    private IAccountHolderRepository accountHolderRepository;
+    private BankAccountRepository bankAccountRepository;
 
     @Autowired
-    public BankAccountServiceImpl(IBankAccountRepository bankAccountRepository, IAccountHolderRepository accountHolderRepository) {
+    public BankAccountServiceImpl(BankAccountRepository bankAccountRepository) {
         this.bankAccountRepository = bankAccountRepository;
-        this.accountHolderRepository = accountHolderRepository;
         this.modelMapper = new ModelMapper();
     }
 
     @Override
     public List<BankAccountDto> getAllBankAccounts() {
-        Map<BankAccount, List<AccountHolder>> map = this.bankAccountRepository.findAll();
+        List<BankAccount> bankAccounts = this.bankAccountRepository.findAll();
         List<BankAccountDto> returnValue = new ArrayList<>();
 
-        for (Map.Entry<BankAccount, List<AccountHolder>> entry : map.entrySet()) {
-            BankAccountDto bankAccountDto = modelMapper.map(entry.getKey(), BankAccountDto.class);
-            bankAccountDto.setAccountHolders(bankAccountRepository.findAllAccountHoldersById(bankAccountDto.getId()));
-
+        for (BankAccount bankaccount: bankAccounts) {
+            BankAccountDto bankAccountDto = modelMapper.map(bankaccount, BankAccountDto.class);
             returnValue.add(bankAccountDto);
         }
 
@@ -48,36 +45,30 @@ public class BankAccountServiceImpl implements IBankAccountService {
     }
 
     @Override
-    public BankAccountDto getBankAccountById(String id) {
-        BankAccount bankAccount = this.bankAccountRepository.findById(id);
+    public BankAccountDto getBankAccountById(long id) {
+        BankAccount bankAccount = this.bankAccountRepository.findById(id).orElse(null);
 
         if (bankAccount == null) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "BankAccount Not Found");
         }
 
-        BankAccountDto bankAccountDto = modelMapper.map(bankAccount, BankAccountDto.class);
-        bankAccountDto.setAccountHolders(bankAccountRepository.findAllAccountHoldersById(bankAccountDto.getId()));
-
-        return bankAccountDto;
+        return modelMapper.map(bankAccount, BankAccountDto.class);
     }
 
     @Override
+    @Transactional
     public BankAccountDto createBankAccount(BankAccountRequestBody bankAccountRequestBody) {
-        List<AccountHolder> accountHolders = accountHolderRepository.findAllByIds(bankAccountRequestBody.getAccountHolders());
-
         BankAccount bankAccount = modelMapper.map(bankAccountRequestBody, BankAccount.class);
-        bankAccount = this.bankAccountRepository.create(bankAccount, accountHolders);
+        bankAccount = this.bankAccountRepository.save(bankAccount);
 
-        BankAccountDto bankAccountDto = modelMapper.map(bankAccount, BankAccountDto.class);
-        bankAccountDto.setAccountHolders(bankAccountRepository.findAllAccountHoldersById(bankAccountDto.getId()));
-
-        return bankAccountDto;
+        return modelMapper.map(bankAccount, BankAccountDto.class);
     }
 
     @Override
-    public boolean deleteBankAccount(String id) {
-        BankAccount bankAccount = this.bankAccountRepository.findById(id);
+    @Transactional
+    public boolean deleteBankAccount(long id) {
+        BankAccount bankAccount = this.bankAccountRepository.findById(id).orElse(null);
 
         if (bankAccount == null) {
             throw new ResponseStatusException(
@@ -85,13 +76,14 @@ public class BankAccountServiceImpl implements IBankAccountService {
             );
         }
 
-        this.bankAccountRepository.delete(id);
+        this.bankAccountRepository.delete(bankAccount);
         return true;
     }
 
     @Override
-    public boolean blockBankAccount(String id) {
-        BankAccount bankAccount = this.bankAccountRepository.findById(id);
+    @Transactional
+    public boolean blockBankAccount(long id) {
+        BankAccount bankAccount = this.bankAccountRepository.findById(id).orElse(null);
 
         if (bankAccount == null) {
             throw new ResponseStatusException(
@@ -99,7 +91,9 @@ public class BankAccountServiceImpl implements IBankAccountService {
             );
         }
 
-        this.bankAccountRepository.block(id);
+        bankAccount.setStatus(BankAccountStatus.BLOCKED);
+
+        this.bankAccountRepository.save(bankAccount);
         return true;
     }
 }

@@ -28,7 +28,7 @@ public class BankAccountController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<BankAccountDto> getBankAccountById(@PathVariable("id") String id) {
+    public ResponseEntity<BankAccountDto> getBankAccountById(@PathVariable("id") long id) {
         return new ResponseEntity<>(IBankAccountService.getBankAccountById(id), HttpStatus.OK);
     }
 
@@ -38,13 +38,13 @@ public class BankAccountController {
     }
 
     @PutMapping(value = "/{id}/block")
-    public ResponseEntity<String> blockBankAccount(@PathVariable("id") String id) {
+    public ResponseEntity<String> blockBankAccount(@PathVariable("id") long id) {
         IBankAccountService.blockBankAccount(id);
         return new ResponseEntity<>("Updated a BankAccount", HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteBankAccount(@PathVariable("id") String id) {
+    public ResponseEntity<String> deleteBankAccount(@PathVariable("id") long id) {
         IBankAccountService.deleteBankAccount(id);
         return new ResponseEntity<>("Deleted a BankAccount", HttpStatus.OK);
     }

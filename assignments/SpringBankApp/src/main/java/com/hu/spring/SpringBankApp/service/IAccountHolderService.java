@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface IAccountHolderService {
     List<AccountHolderDto> getAllAccountHolders();
-    AccountHolderDto getAccountHolderById(String id);
+    AccountHolderDto getAccountHolderById(long id);
     AccountHolderDto createAccountHolder(AccountHolderRequestBody accountHolderDto);
-    boolean deleteAccountHolder(String id);
+    boolean deleteAccountHolder(long id);
 }

@@ -28,7 +28,7 @@ public class AccountHolderController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<AccountHolderDto> getAccountHolderById(@PathVariable("id") String id) {
+    public ResponseEntity<AccountHolderDto> getAccountHolderById(@PathVariable("id") long id) {
         AccountHolderDto accountHolderDto = accountHolderService.getAccountHolderById(id);
         return new ResponseEntity<>(accountHolderDto, HttpStatus.OK);
     }
@@ -40,7 +40,7 @@ public class AccountHolderController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteAccountHolder(@PathVariable("id") String id) {
+    public ResponseEntity<String> deleteAccountHolder(@PathVariable("id") long id) {
         accountHolderService.deleteAccountHolder(id);
         return new ResponseEntity<>("Deleted a AccountHolder", HttpStatus.OK);
     }

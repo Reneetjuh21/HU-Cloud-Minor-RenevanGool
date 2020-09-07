@@ -9,8 +9,8 @@ import java.util.List;
 @Service
 public interface IBankAccountService {
     List<BankAccountDto> getAllBankAccounts();
-    BankAccountDto getBankAccountById(String id);
+    BankAccountDto getBankAccountById(long id);
     BankAccountDto createBankAccount(BankAccountRequestBody bankAccountRequestBody);
-    boolean deleteBankAccount(String id);
-    boolean blockBankAccount(String id);
+    boolean deleteBankAccount(long id);
+    boolean blockBankAccount(long id);
 }

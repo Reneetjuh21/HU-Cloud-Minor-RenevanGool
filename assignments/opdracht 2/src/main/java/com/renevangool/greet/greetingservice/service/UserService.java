@@ -8,16 +8,12 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class UserService implements IUserService {
-    private final RestTemplate restTemplate;
-
     private final UserClient userClient;
 
     @Autowired
     public UserService(
-            RestTemplateBuilder restTemplateBuilder,
             UserClient userClient
     ) {
-        this.restTemplate = restTemplateBuilder.build();
         this.userClient = userClient;
     }
 
@@ -27,7 +23,7 @@ public class UserService implements IUserService {
         return this.userClient.getUser();
     }
 
-    private String defaultUserName() {
+    public String defaultUserName() {
         return "Giel Beelen";
     }
 }

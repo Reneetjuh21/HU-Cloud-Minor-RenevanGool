@@ -1,4 +1,4 @@
-package com.renevangool.greet.test;
+package com.renevangool.greet.greetingservice.test;
 
 import com.renevangool.greet.greetingservice.service.UserClient;
 import com.renevangool.greet.greetingservice.service.UserService;

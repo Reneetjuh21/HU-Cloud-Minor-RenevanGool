@@ -1,10 +1,10 @@
-package com.renevangool.greet.test;
+package com.renevangool.greet.greetingservice.test;
 
 import com.renevangool.greet.greetingservice.GreetingServiceApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = GreetingServiceApplication.class)
+@SpringBootTest
 class GreetingServiceApplicationTests {
 
     @Test

@@ -1,4 +1,4 @@
-package com.renevangool.greet.greetingservice.it;
+package com.renevangool.greet.greetingservice.functional;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;

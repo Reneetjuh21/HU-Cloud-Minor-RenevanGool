@@ -1,4 +1,4 @@
-package com.renevangool.greet.greetingservice.it;
+package com.renevangool.greet.greetingservice.functional;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;

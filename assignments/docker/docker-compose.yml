@@ -1,0 +1,27 @@
+version: '2.0'
+services:
+  mysql:
+    image: mysql:5.6
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=quintor_pw
+      - MYSQL_DATABASE=cddb_quintor
+      - MYSQL_USER=cddb_quintor
+      - MYSQL_PASSWORD=quintor_pw
+    ports:
+      - "23306:3306"
+  
+  cddb_backend:
+    image: backend:latest
+    links:
+      - mysql:mysql
+    ports:
+      - "28080:8080"
+
+  cddb_frontend:
+    image: cddb_frontend:latest
+    links:
+      - cddb_backend:backend
+    ports:
+      - "20080:80"
+

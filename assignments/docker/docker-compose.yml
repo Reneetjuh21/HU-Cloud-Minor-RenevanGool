@@ -3,6 +3,8 @@ services:
   mysql:
     image: mysql:5.6
     container_name: mysql
+    volumes:
+      - mysql-volume:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=quintor_pw
       - MYSQL_DATABASE=cddb_quintor
@@ -24,4 +26,6 @@ services:
       - cddb_backend:backend
     ports:
       - "20080:80"
+volumes:
+  mysql-volume: {}
 

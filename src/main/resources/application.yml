@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: user-service-client
+  profiles:
+    active: development
+  cloud:
+    config:
+      uri: http://localhost:8888
+      username: root
+      password: s3cret
+server:
+  port: 8081

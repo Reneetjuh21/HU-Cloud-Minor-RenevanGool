@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>nl.hu.assignments.term1.week2</groupId>
-    <artifactId>functional-testing</artifactId>
+    <artifactId>cnsd17-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>functional-testing</name>
+    <name>cnsd17-backend</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

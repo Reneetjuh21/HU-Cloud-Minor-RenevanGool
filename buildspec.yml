@@ -26,3 +26,6 @@ phases:
     commands:
       - echo Build completed on `date`
       - mvn package
+artifacts:
+  files:
+    - target/cndsd17-backend-0.0.1-SNAPSHOT.jar

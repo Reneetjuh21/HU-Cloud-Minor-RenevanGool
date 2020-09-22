@@ -28,4 +28,4 @@ phases:
       - mvn package
 artifacts:
   files:
-    - target/cndsd17-backend-0.0.1-SNAPSHOT.jar
+    - ./target/cndsd17-backend-0.0.1-SNAPSHOT.jar

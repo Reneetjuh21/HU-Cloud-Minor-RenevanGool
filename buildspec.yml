@@ -22,3 +22,7 @@ phases:
     commands:
       - mvn test
       - mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - mvn package

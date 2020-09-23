@@ -10,22 +10,19 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 734122941360.dkr.ecr.us-east-1.amazonaws.com
-      - REPOSITORY_URI=734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION)
-      - IMAGE_TAG=${COMMIT_HASH:=$CODEBUILD_BUILD_NUMBER}
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build . -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker build . -t 734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:latest .
+      - docker tag 734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed
       - echo Pushing the Docker images...
-      - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push 734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:latest
+      - docker push 734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:$CODEBUILD_BUILD_NUMBER
       - echo Writing definitions file...
-      - printf '[{"name":"project-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > taskdefinition.json
+      - printf '[{"name":"project-container","imageUri":"%s"}]' 734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:$CODEBUILD_BUILD_NUMBER > taskdefinition.json
 artifacts:
   files: taskdefinition.json

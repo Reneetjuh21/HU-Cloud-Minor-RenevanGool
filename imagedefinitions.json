@@ -1,0 +1,6 @@
+[
+  {
+    "name": "cnsd17-backend",
+    "imageUri": "734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:latest"
+  }
+]

@@ -26,4 +26,4 @@ phases:
       - echo Writing definitions file...
       - printf '[{"name":"project-container","imageUri":"%s"}]' 734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:$CODEBUILD_BUILD_NUMBER > taskdefinition.json
 artifacts:
-  files: taskdefinition.json
+  files: imagedefinitions.json

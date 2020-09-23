@@ -16,7 +16,7 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t 734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:latest .
-      - docker tag 734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:latest 734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:$IMAGE_TAG
+      - docker tag 734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:latest 734122941360.dkr.ecr.us-east-1.amazonaws.com/cnsd17-backend:$CODEBUILD_BUILD_NUMBER
   post_build:
     commands:
       - echo Build completed

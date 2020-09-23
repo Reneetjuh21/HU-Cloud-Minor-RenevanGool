@@ -1,5 +1,12 @@
 version: 0.0
 os: linux
+env:
+  secrets-manager:
+    RDS_HOSTNAME: prod/rds:host
+    RDS_PORT: prod/rds:port
+    RDS_USERNAME: prod/rds:username
+    RDS_PASSWORD: prod/rds:password
+
 files:
   - source: target/cnsd17-backend-0.0.1-SNAPSHOT.jar
     destination: /home/ubuntu/server

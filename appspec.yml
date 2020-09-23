@@ -7,6 +7,3 @@ hooks:
   ApplicationStart:
     - location: runapp.sh
       runas: ubuntu
-  ValidateService:
-    - location: validate.sh
-      runas: ubuntu

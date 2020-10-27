@@ -2,7 +2,6 @@ package com.renevangool.sqsproducer.controller;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.CreateQueueRequest;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.renevangool.sqsproducer.model.Message;
 import org.springframework.beans.factory.annotation.Autowired;

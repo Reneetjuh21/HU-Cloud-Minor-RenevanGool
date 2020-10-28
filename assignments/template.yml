@@ -1,0 +1,12 @@
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: my-sqs-app
+    Description: sqs consumer
+    Author: user1
+    SpdxLicenseId: Apache-2.0
+    LicenseUrl: LICENSE.txt
+    ReadmeUrl: README.md
+    Labels: ['tests']
+    HomePageUrl: https://github.com/Reneetjuh21/HU-Cloud-Minor-RenevanGool
+    SemanticVersion: 0.0.1
+    SourceCodeUrl: https://github.com/Reneetjuh21/HU-Cloud-Minor-RenevanGool

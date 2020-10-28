@@ -1,12 +1,24 @@
-Metadata:
-  AWS::ServerlessRepo::Application:
-    Name: my-sqs-app
-    Description: sqs consumer
-    Author: user1
-    SpdxLicenseId: Apache-2.0
-    LicenseUrl: LICENSE.txt
-    ReadmeUrl: README.md
-    Labels: ['tests']
-    HomePageUrl: https://github.com/Reneetjuh21/HU-Cloud-Minor-RenevanGool
-    SemanticVersion: 0.0.1
-    SourceCodeUrl: https://github.com/Reneetjuh21/HU-Cloud-Minor-RenevanGool
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: A sample SAM template for deploying Lambda functions.
+
+Resources:
+# Details about the myDateTimeFunction Lambda function
+  mySQSListener:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: myDateTimeFunction.handler
+      Runtime: nodejs10.x
+# Instructs your myDateTimeFunction is published to an alias named "live".      
+      AutoPublishAlias: live
+# Grants this function permission to call lambda:InvokeFunction
+      Policies:
+        - Version: "2012-10-17"
+          Statement: 
+          - Effect: "Allow"
+            Action: 
+              - "lambda:InvokeFunction"
+            Resource: '*'
+      DeploymentPreference:
+# Specifies the deployment configuration      
+          Type: Linear10PercentEvery1Minute

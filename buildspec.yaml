@@ -10,7 +10,7 @@ phases:
       - sam build
       - sam local invoke
       - sam package --s3-bucket hello-world-sam-bucket --output-template-file hello-world-template.yml
-  post-build:
+  post_build:
     commands:
       - echo --------- deploying ---------
       - sam deploy --template-file hello-world-template.yml --stack-name hello-world --capabilities CAPABILITY_IAM

@@ -8,7 +8,7 @@ phases:
     commands:
       - echo building
       - sam build
-      - sam package --s3-bucket hello-world --output-template-file hello-world-template.yml
+      - sam package --s3-bucket hello-world-sam-bucket --output-template-file hello-world-template.yml
 artifacts:
   type: zip
   files:

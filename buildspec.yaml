@@ -13,7 +13,7 @@ phases:
   post_build:
     commands:
       - echo --------- deploying ---------
-      - sam deploy --template-file hello-world-template.yml --stack-name hello-world --capabilities CAPABILITY_IAM
+      - sam deploy --template-file hello-world-template.yml --stack-name hello-world --capabilities CAPABILITY_IAM --confirm-changeset
 artifacts:
   type: zip
   files:

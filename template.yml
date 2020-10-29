@@ -7,7 +7,7 @@ Resources:
   mySQSListener:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: myDateTimeFunction.handler
+      Handler: mySQSListener.handler
       Runtime: nodejs10.x
 # Instructs your myDateTimeFunction is published to an alias named "live".      
       AutoPublishAlias: live
@@ -21,4 +21,4 @@ Resources:
             Resource: '*'
       DeploymentPreference:
 # Specifies the deployment configuration      
-          Type: Linear10PercentEvery1Minute
+        Type: Linear10PercentEvery1Minute

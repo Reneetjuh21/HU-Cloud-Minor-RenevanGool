@@ -6,9 +6,14 @@ phases:
       python: 3.8
   build:
     commands:
-      - echo building
+      - echo --------- building ---------
       - sam build
+      - sam local invoke
       - sam package --s3-bucket hello-world-sam-bucket --output-template-file hello-world-template.yml
+  post-build:
+    commands:
+      - echo --------- deploying ---------
+      - sam deploy --template-file hello-world-template.yml --stack-name hello-world --capabilities CAPABILITY_IAM
 artifacts:
   type: zip
   files:

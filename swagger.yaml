@@ -1,0 +1,217 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  description: Notitie API for creating, finding and deleting notities.
+  title: Notitie API
+  x-apiType: open
+tags:
+  - name: Notitie
+    description: notities
+paths:
+  /notities:
+    post:
+      description: |-
+        Creates a notitie.
+      summary: Create a notitie
+      operationId: createNotitieRequest
+      tags:
+        - Notitie
+      requestBody:
+        $ref: "#/components/requestBodies/NotitieCreationRequest"
+      responses:
+        '201':
+          $ref: "#/components/responses/CreateNotitieRequestSuccess"
+        '400':
+          $ref: "#/components/responses/InvalidNotitieCreationRequestErrors"
+        '500':
+          $ref: "#/components/responses/ServerErrors"
+  /notities/{notitieId}:
+    get:
+      description: |-
+        Get notitie by id.
+      summary: Get notitie by id
+      operationId: getNotitieRequest
+      tags:
+        - Notitie
+      parameters:
+        - $ref: "#/components/parameters/notitieId"
+      responses:
+        '200':
+          $ref: "#/components/responses/GetNotitieRequestSuccess"
+        '400':
+          $ref: "#/components/responses/InvalidGetNotitieRequestErrors"
+        '404':
+          $ref: "#/components/responses/NotitieNotFoundError"
+        '500':
+          $ref: "#/components/responses/ServerErrors"
+components:
+  requestBodies:
+    NotitieCreationRequest:
+      description: "Details of the notitie request you are creating"
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotitieCreationRequest'
+  responses:
+    CreateNotitieRequestSuccess:
+      description: Notitie created.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/NotitieCreationResponse"
+    GetNotitieRequestSuccess:
+      description: A notitie found by id.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Notitie"
+    InvalidNotitieCreationRequestErrors:
+      description: |
+        Missing or invalid parameters.
+
+        Detailed error list:
+          ---
+          - TEXT_MISSING
+            > `text` was not supplied in the request.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Errors"
+          example:
+            errors:
+              - code: TEXT_MISSING
+                message: 'text was not supplied in the request.'
+                status: 400
+    InvalidGetNotitieRequestErrors:
+      description: |
+        Missing or invalid parameters.
+
+        Detailed error list:
+          ---
+          - ID_MISSING
+            > `text` was not supplied in the request.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Errors"
+          example:
+            errors:
+              - code: ID_MISSING
+                message: 'Notitie ID was not supplied in the request.'
+                status: 400
+    NotitieNotFoundError:
+      description: |
+        Not found.
+
+        Detailed error list:
+          ---
+          - NOTITIE_NOT_FOUND
+            > No notitie was found.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Errors"
+          example:
+            errors:
+              - code: PAYMENT_NOT_FOUND
+                message: 'No payment was found.'
+                status: 404
+    ServerErrors:
+      description: |
+        Internal server error.
+
+        Detailed error list:
+          ---
+          - INTERNAL_SERVER_ERROR
+            > An unknown error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Errors"
+          example:
+            errors:
+              - code: INTERNAL_SERVER_ERROR
+                message: 'Some unknown error occurred'
+                status: 500
+  parameters:
+    notitieId:
+      name: notitieId
+      in: path
+      required: true
+      description: "ID given to notitie in database."
+      schema:
+        type: uuid
+      example: 'aaaaaaaa-1111-bbbb-2222-cccccccccccc'
+  schemas:
+    NotitieCreationRequest:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          example: 'hello'
+          description: 'The message you would like to leave in the notitie.'
+    NotitieCreationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 'aaaaaaaa-1111-bbbb-2222-cccccccccccc'
+          description: 'unique identifier for notitie object from database'
+        text:
+          type: string
+          example: 'hello'
+          description: 'The message you would like to leave in the notitie.'
+        date:
+          type: string
+          example: '11/03/2020, 13:06:09'
+          description: 'Date and time given object was created.'
+    Notitie:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 'aaaaaaaa-1111-bbbb-2222-cccccccccccc'
+          description: 'unique identifier for notitie object from database'
+        text:
+          type: string
+          example: 'hello'
+          description: 'The message you would like to leave in the notitie.'
+        date:
+          type: string
+          example: '11/03/2020, 13:06:09'
+          description: 'Date and time given object was created.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      required:
+        - code
+        - message
+        - status
+      properties:
+        code:
+          type: string
+          example: 'ID_MISSING'
+          description: Unique error code.
+        message:
+          type: string
+          example: 'notitieCreation is in an invalid format.'
+          description: Message describing the error.
+        status:
+          type: integer
+          format: "int32"
+          example: 400
+          description: HTTP Status code.
+

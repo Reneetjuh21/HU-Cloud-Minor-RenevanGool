@@ -3,10 +3,10 @@ import logging
 import psycopg2
 import json
 
-endpoint = 'gatewayassignment.cahtmq6dhg6r.us-east-1.rds.amazonaws.com'
-username = 'postgres'
-password = 'PietPiraat4%'
-database_name = 'postgres'
+endpoint = ''
+username = ''
+password = ''
+database_name = ''
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)

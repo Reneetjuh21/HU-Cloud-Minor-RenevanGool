@@ -50,7 +50,7 @@ paths:
         '500':
           $ref: "#/components/responses/ServerErrors"
       x-amazon-apigateway-integration:
-        httpMethod: get
+        httpMethod: post
         type: aws_proxy
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SelectOneFunction.Arn}/invocations
@@ -151,7 +151,7 @@ components:
       required: true
       description: "ID given to notitie in database."
       schema:
-        type: uuid
+        type: string
       example: 'aaaaaaaa-1111-bbbb-2222-cccccccccccc'
   schemas:
     NotitieCreationRequest:
@@ -168,7 +168,6 @@ components:
       properties:
         id:
           type: string
-          format: uuid
           example: 'aaaaaaaa-1111-bbbb-2222-cccccccccccc'
           description: 'unique identifier for notitie object from database'
         text:
@@ -184,7 +183,6 @@ components:
       properties:
         id:
           type: string
-          format: uuid
           example: 'aaaaaaaa-1111-bbbb-2222-cccccccccccc'
           description: 'unique identifier for notitie object from database'
         text:

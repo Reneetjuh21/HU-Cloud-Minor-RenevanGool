@@ -1,0 +1,9 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "notities-app"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-u3u7bt6qouwh"
+s3_prefix = "notities-app"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"

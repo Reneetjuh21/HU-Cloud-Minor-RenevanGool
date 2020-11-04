@@ -1,5 +1,7 @@
 import logging
+import json
 import boto3
+import os
 from botocore.exceptions import ClientError
 
 logger = logging.getLogger()
@@ -8,7 +10,7 @@ logger.setLevel(logging.INFO)
 
 def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('notities')
+    table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
     notitieId = event['pathParameters']['notitieId']
 
     try:
@@ -18,5 +20,5 @@ def lambda_handler(event, context):
     else:
         return {
             'statusCode': 200,
-            'body': response['Item']
+            'body': json.dumps(response['Item'])
         }

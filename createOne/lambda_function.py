@@ -15,8 +15,6 @@ def lambda_handler(event, context):
     body = json.loads(event['body'])
     text = body['text']
 
-    print(os.environ['DYNAMODB_TABLE'])
-
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
     item = {

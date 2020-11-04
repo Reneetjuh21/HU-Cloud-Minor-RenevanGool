@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+  Runtime: python3.8
+  Timeout: 180
+  Environment:
+    Variables:
+      DYNAMODB_TABLE: !Ref DynamoNotitiesTable
+      DB_ENDPOINT: http://dynamodb.us-east-1.amazonaws.com
+
+Resources:
+  NotitiesApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: live
+      DefinitionBody:
+        'Fn::Transform':
+          Name: 'AWS::Include'
+          Parameters:
+            Location: swagger.yaml
+
+  NotitiesTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: notities
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnit: 5
+        WriteCapacityUnits: 5
+      Tags:
+        AppType: Serverless
+
+  SelectOneFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      codeUri: selectOne/
+      Handler: lambda_function.lambda_handler
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /notities/{notitieId}
+            Method: get
+
+  CreateOneFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      codeUri: createOne/
+      Handler: lambda_function.lambda_handler
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /notities
+            Method: post

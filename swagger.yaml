@@ -25,6 +25,11 @@ paths:
           $ref: "#/components/responses/InvalidNotitieCreationRequestErrors"
         '500':
           $ref: "#/components/responses/ServerErrors"
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        type: aws_proxy
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CreateOneFunction.Arn}/invocations
   /notities/{notitieId}:
     get:
       description: |-
@@ -44,6 +49,11 @@ paths:
           $ref: "#/components/responses/NotitieNotFoundError"
         '500':
           $ref: "#/components/responses/ServerErrors"
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        type: aws_proxy
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SelectOneFunction.Arn}/invocations
 components:
   requestBodies:
     NotitieCreationRequest:

@@ -7,7 +7,7 @@ Globals:
     Timeout: 180
     Environment:
       Variables:
-        DYNAMODB_TABLE: $Ref NotitiesTable
+        DYNAMODB_TABLE: notities
 
 Resources:
   NotitiesApiGateway:

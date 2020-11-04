@@ -15,12 +15,14 @@ def lambda_handler(event, context):
     body = json.loads(event['body'])
     text = body['text']
 
+    print(os.environ['DYNAMODB_TABLE'])
+
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
     item = {
         'id': str(uuid.uuid4()),
         'text': text,
-        'date': today
+        'date': today.strftime("%Y-%m-%d %H:%M:%S")
     }
     table.put_item(Item = item)
 

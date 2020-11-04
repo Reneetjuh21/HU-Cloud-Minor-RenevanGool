@@ -7,7 +7,7 @@ Globals:
   Timeout: 180
   Environment:
     Variables:
-      DYNAMODB_TABLE: !Ref DynamoNotitiesTable
+      DYNAMODB_TABLE: $Ref DynamoNotitiesTable
       DB_ENDPOINT: http://dynamodb.us-east-1.amazonaws.com
 
 Resources:
@@ -46,6 +46,9 @@ Resources:
           Properties:
             Path: /notities/{notitieId}
             Method: get
+      AutoPublishAlias: live
+        DeploymentPreference:
+          Type: Canary10Percent5Minutes
 
   CreateOneFunction:
     Type: AWS::Serverless::Function
@@ -59,3 +62,11 @@ Resources:
           Properties:
             Path: /notities
             Method: post
+      AutoPublishAlias: live
+        DeploymentPreference:
+          Type: Canary10Percent5Minutes
+Outputs:
+  Endpoint:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${NotitiesApiGateway}.execute-api.${AWS::Region}.amazonaws.com/

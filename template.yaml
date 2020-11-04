@@ -3,12 +3,11 @@ Transform: AWS::Serverless-2016-10-31
 
 Globals:
   Function:
-  Runtime: python3.8
-  Timeout: 180
-  Environment:
-    Variables:
-      DYNAMODB_TABLE: $Ref DynamoNotitiesTable
-      DB_ENDPOINT: http://dynamodb.us-east-1.amazonaws.com
+    Runtime: python3.8
+    Timeout: 180
+    Environment:
+      Variables:
+        DYNAMODB_TABLE: $Ref NotitiesTable
 
 Resources:
   NotitiesApiGateway:
@@ -37,7 +36,7 @@ Resources:
   SelectOneFunction:
     Type: AWS::Serverless::Function
     Properties:
-      codeUri: selectOne/
+      CodeUri: selectOne/
       Handler: lambda_function.lambda_handler
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -47,13 +46,13 @@ Resources:
             Path: /notities/{notitieId}
             Method: get
       AutoPublishAlias: live
-        DeploymentPreference:
-          Type: Canary10Percent5Minutes
+      DeploymentPreference:
+        Type: Canary10Percent5Minutes
 
   CreateOneFunction:
     Type: AWS::Serverless::Function
     Properties:
-      codeUri: createOne/
+      CodeUri: createOne/
       Handler: lambda_function.lambda_handler
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -63,8 +62,8 @@ Resources:
             Path: /notities
             Method: post
       AutoPublishAlias: live
-        DeploymentPreference:
-          Type: Canary10Percent5Minutes
+      DeploymentPreference:
+        Type: Canary10Percent5Minutes
 Outputs:
   Endpoint:
     Description: API Gateway endpoint URL for Prod stage for Hello World function

@@ -1,0 +1,232 @@
+{
+  "ModelName": "Lunch",
+  "ModelMetadata": {
+    "Author": "",
+    "DateCreated": "Nov 08, 2020, 12:03 PM",
+    "DateLastModified": "Nov 08, 2020, 02:30 PM",
+    "Description": "",
+    "AWSService": "Amazon DynamoDB",
+    "Version": "2.0"
+  },
+  "DataModel": [
+    {
+      "TableName": "Lunch",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "firstName",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "lastName",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "password",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "enabled",
+          "AttributeType": "BOOL"
+        },
+        {
+          "AttributeName": "balance",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "userId",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "transactionId",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "amount",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "state",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "lunchId",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "date",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "cost",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "commentId",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "text",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "emailAddress",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "edited",
+          "AttributeType": "BOOL"
+        },
+        {
+          "AttributeName": "deleted",
+          "AttributeType": "BOOL"
+        }
+      ],
+      "TableFacets": [
+        {
+          "FacetName": "byUserId",
+          "KeyAttributeAlias": {
+            "PartitionKeyAlias": "userId",
+            "SortKeyAlias": "email"
+          },
+          "TableData": [],
+          "NonKeyAttributes": [
+            "firstName",
+            "lastName",
+            "password",
+            "enabled",
+            "balance"
+          ]
+        },
+        {
+          "FacetName": "byLunchId",
+          "KeyAttributeAlias": {
+            "PartitionKeyAlias": "lunchId",
+            "SortKeyAlias": "date"
+          },
+          "TableData": [],
+          "NonKeyAttributes": [
+            "state",
+            "cost"
+          ]
+        },
+        {
+          "FacetName": "byGroceryId",
+          "KeyAttributeAlias": {
+            "PartitionKeyAlias": "groceryId",
+            "SortKeyAlias": "name"
+          },
+          "TableData": []
+        },
+        {
+          "FacetName": "commentsByGroceryId",
+          "KeyAttributeAlias": {
+            "PartitionKeyAlias": "groceryId",
+            "SortKeyAlias": "commentId"
+          },
+          "TableData": [],
+          "NonKeyAttributes": [
+            "date",
+            "text",
+            "emailAddress",
+            "edited",
+            "deleted"
+          ]
+        },
+        {
+          "FacetName": "commentsByCommentId",
+          "KeyAttributeAlias": {
+            "PartitionKeyAlias": "commentId",
+            "SortKeyAlias": "groceryId"
+          },
+          "TableData": [],
+          "NonKeyAttributes": [
+            "date",
+            "text",
+            "emailAddress",
+            "edited",
+            "deleted"
+          ]
+        }
+      ],
+      "GlobalSecondaryIndexes": [
+        {
+          "IndexName": "userByEmailAddress",
+          "KeyAttributes": {
+            "PartitionKey": {
+              "AttributeName": "emailAddress",
+              "AttributeType": "S"
+            },
+            "SortKey": {
+              "AttributeName": "userId",
+              "AttributeType": "N"
+            }
+          },
+          "Projection": {
+            "ProjectionType": "INCLUDE",
+            "NonKeyAttributes": [
+              "firstName",
+              "lastName",
+              "password",
+              "enabled",
+              "balance"
+            ]
+          }
+        },
+        {
+          "IndexName": "lunchByDate",
+          "KeyAttributes": {
+            "PartitionKey": {
+              "AttributeName": "date",
+              "AttributeType": "S"
+            },
+            "SortKey": {
+              "AttributeName": "lunchId",
+              "AttributeType": "N"
+            }
+          },
+          "Projection": {
+            "ProjectionType": "INCLUDE",
+            "NonKeyAttributes": [
+              "state",
+              "cost"
+            ]
+          }
+        },
+        {
+          "IndexName": "transactionsByUserEmail",
+          "KeyAttributes": {
+            "PartitionKey": {
+              "AttributeName": "emailAddress",
+              "AttributeType": "S"
+            },
+            "SortKey": {
+              "AttributeName": "transactionId",
+              "AttributeType": "N"
+            }
+          },
+          "Projection": {
+            "ProjectionType": "INCLUDE",
+            "NonKeyAttributes": [
+              "date",
+              "state",
+              "amount"
+            ]
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      }
+    }
+  ]
+}

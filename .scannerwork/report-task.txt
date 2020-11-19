@@ -1,0 +1,6 @@
+projectKey=cnsd17-helloworld
+serverUrl=https://sonarqube.cloud-native-minor.it
+serverVersion=8.4.2.36762
+dashboardUrl=https://sonarqube.cloud-native-minor.it/dashboard?id=cnsd17-helloworld
+ceTaskId=AXXgh1XG6Q1wnAHq2U14
+ceTaskUrl=https://sonarqube.cloud-native-minor.it/api/ce/task?id=AXXgh1XG6Q1wnAHq2U14

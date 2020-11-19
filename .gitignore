@@ -153,7 +153,7 @@ htmlcov/
 .cache
 .pytest_cache/
 nosetests.xml
-coverage.xml
+target/coverage-cnsd17-helloworld.html
 *.cover
 .hypothesis/
 

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.sonarsource.parent</groupId>
+        <artifactId>parent</artifactId>
+        <version>54</version>
+    </parent>
+
+    <groupId>org.sonarsource.python</groupId>
+    <artifactId>python</artifactId>
+    <version>3.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <sonar.sources>src</sonar.sources>
+        <sonar.projectName>cnsd17-helloworld</sonar.projectName>
+        <sonar.projectKey>cnsd17-helloworld</sonar.projectKey>
+        <sonar.host.url>https://sonarqube.cloud-native-minor.it</sonar.host.url>
+        <sonar.login>92c3b47bf0569c703b870fde9a6f63e0f3490a20</sonar.login>
+        <sonar.tests>tests</sonar.tests>
+        <sonar.python.xunit.reportPath>target/testreport-*.xml</sonar.python.xunit.reportPath>
+        <sonar.python.coverage.reportPaths>target/coverage-*.xml</sonar.python.coverage.reportPaths>
+    </properties>
+
+    <dependencyManagement>
+    <dependencies>
+      <!-- compile dependencies -->
+      <dependency>
+        <groupId>org.sonarsource.sslr</groupId>
+        <artifactId>sslr-core</artifactId>
+        <version>${sslr.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.analyzer-commons</groupId>
+        <artifactId>sonar-analyzer-commons</artifactId>
+        <version>${sonar-analyzer-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.analyzer-commons</groupId>
+        <artifactId>sonar-xml-parsing</artifactId>
+        <version>${sonar-analyzer-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.analyzer-commons</groupId>
+        <artifactId>sonar-analyzer-test-commons</artifactId>
+        <version>${sonar-analyzer-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.staxmate</groupId>
+        <artifactId>staxmate</artifactId>
+        <version>2.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.orchestrator</groupId>
+        <artifactId>sonar-orchestrator</artifactId>
+        <version>${sonar.orchestrator.version}</version>
+      </dependency>
+
+      <!-- test dependencies -->
+      <dependency>
+        <groupId>org.sonarsource.sonarqube</groupId>
+        <artifactId>sonar-testing-harness</artifactId>
+        <version>${sonar.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.sslr</groupId>
+        <artifactId>sslr-testing-harness</artifactId>
+        <version>${sslr.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.sonarlint.core</groupId>
+        <artifactId>sonarlint-core</artifactId>
+        <version>${sonarlint-core.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+
+      <!-- provided dependencies -->
+      <dependency>
+        <groupId>org.sonarsource.sonarqube</groupId>
+        <artifactId>sonar-plugin-api</artifactId>
+        <version>${sonar.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+</project>

@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "testStack"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-s1i7wdcnnyr9"
+s3_prefix = "testStack"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "VPC=\"vpc-918a59ec\" SubnetA=\"subnet-2bd7504d\" SubnetB=\"subnet-9a53d1bb\" SecurityGroup=\"sg-81e289b4\" ServiceName=\"TestService\" Image=\"493008814525.dkr.ecr.us-east-1.amazonaws.com/nginx:latest\" ContainerPort=\"80\""

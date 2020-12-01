@@ -1,0 +1,117 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+
+Parameters:
+  VPC:
+    Type: AWS::EC2::VPC::Id
+    Default: vpc-918a59ec
+  SubnetA:
+    Type: AWS::EC2::Subnet::Id
+    Default: subnet-2bd7504d
+  SubnetB:
+    Type: AWS::EC2::Subnet::Id
+    Default: subnet-9a53d1bb
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
+    Default: sg-81e289b4
+  ServiceName:
+    Type: String
+    # update with the name of the service
+    Default: TestService
+  Image:
+    Type: String
+    # Update with the Docker image. "You can use images in the Docker Hub registry or specify other repositories (repository-url/image:tag)."
+    Default: 493008814525.dkr.ecr.us-east-1.amazonaws.com/nginx:latest
+  ContainerPort:
+    Type: Number
+    Default: 80
+
+Resources:
+
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Join ['', [!Ref ServiceName, Cluster]]
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      NetworkMode: awsvpc
+      Memory: 0.5GB
+      Cpu: 256
+      ExecutionRoleArn: !Ref ExecutionRole
+      ContainerDefinitions:
+        - Name: !Ref ServiceName
+          Image: !Ref Image
+          PortMappings:
+            - ContainerPort: !Ref ContainerPort
+          # Send logs to CloudWatch Logs
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-region: !Ref AWS::Region
+              awslogs-group: !Ref LogGroup
+              awslogs-stream-prefix: ecs
+      RequiresCompatibilities:
+        - FARGATE
+
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join ['', [!Ref ServiceName, ExecutionRole]]
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy'
+
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      Type: application
+      Subnets:
+        - !Ref SubnetA
+        - !Ref SubnetB
+      SecurityGroups:
+        - !Ref SecurityGroup
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Protocol: HTTP
+      VpcId: !Ref VPC
+      Port: !Ref ContainerPort
+
+  ListenerHTTP:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - TargetGroupArn: !Ref TargetGroup
+          Type: forward
+      LoadBalancerArn: !Ref LoadBalancer
+
+  Service:
+    Type: AWS::ECS::Service
+    DependsOn:
+      - ListenerHTTP
+    Properties:
+      LaunchType: FARGATE
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          Subnets:
+            - !Ref SubnetA
+            - !Ref SubnetB
+          SecurityGroups:
+            - !Ref SecurityGroup
+      LoadBalancers:
+        - TargetGroupArn: !Ref TargetGroup
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join ['', [/ecs/, !Ref ServiceName, TaskDefinition]]
